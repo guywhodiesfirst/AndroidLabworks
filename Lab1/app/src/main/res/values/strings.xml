@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Лаба 1 ІП-24 Штанько</string>
+    <string name="selected_data">Факультет: %1$s, курс: %2$s</string>
+</resources>
