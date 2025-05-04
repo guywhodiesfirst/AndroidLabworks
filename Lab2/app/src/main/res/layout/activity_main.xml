@@ -12,13 +12,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Контейнер для GroupsFragment -->
         <FrameLayout
             android:id="@+id/fragment_groups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Контейнер для InfoFragment -->
         <FrameLayout
             android:id="@+id/fragment_info"
             android:layout_width="match_parent"

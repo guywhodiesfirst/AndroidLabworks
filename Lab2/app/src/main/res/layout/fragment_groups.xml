@@ -15,7 +15,7 @@
         android:text="Курс" />
 
     <RadioGroup
-        android:id="@+id/facultyGroup"
+        android:id="@+id/yearGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -59,7 +59,7 @@
         android:text="Факультет" />
 
     <RadioGroup
-        android:id="@+id/courseGroup"
+        android:id="@+id/facultyGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

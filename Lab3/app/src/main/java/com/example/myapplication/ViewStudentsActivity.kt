@@ -1,13 +1,13 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.myapplication.databinding.ActivityViewStudentsBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ViewStudentsActivity : AppCompatActivity() {
 
@@ -20,22 +20,34 @@ class ViewStudentsActivity : AppCompatActivity() {
         binding = ActivityViewStudentsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        val listView: ListView = findViewById(R.id.studentsListView)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_view_students)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val dbHandler = DatabaseHandler(this)
+        val students = dbHandler.getAllStudents()
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        val studentStrings = students.map { student ->
+            "ID: ${student.id}, Курс: ${student.year}, Факультет: ${student.faculty}"
         }
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_view_students)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, studentStrings)
+        listView.adapter = adapter
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_view_students -> {
+                    true
+                }
+                R.id.nav_add_student -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        bottomNav.selectedItemId = R.id.nav_view_students
     }
 }

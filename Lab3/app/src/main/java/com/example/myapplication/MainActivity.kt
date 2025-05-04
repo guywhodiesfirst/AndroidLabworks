@@ -1,47 +1,41 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+        setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            val fragmentGroups = GroupsFragment()
+            val fragmentInfo = InfoFragment()
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_groups, fragmentGroups)
+                .replace(R.id.fragment_info, fragmentInfo)
+                .commit()
+        }
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_add_student -> {
+                    true
                 }
+                R.id.nav_view_students -> {
+                    val intent = Intent(this, ViewStudentsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
+        bottomNav.selectedItemId = R.id.nav_add_student
     }
 }
